@@ -19,38 +19,17 @@ function App() {
   const [debounceTimer, setDebounceTimer] = useState(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    const fetchCountries = async () => {
-      try {
-        const data = await fetch("https://restcountries.com/v3.1/all", signal);
-        const jsonData = await data.json();
-        setCountryList(convertCountryList(jsonData));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchCountries();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
-  useEffect(() => {
 
     const controller = new AbortController();
     const { signal } = controller;
     const fetchCountry = async (country) => {
-      if(country?.length){
+      if(country?.length > 1){
         try {
           const data = await fetch(
-            `https://restcountries.com/v3.1/name/${country}`
+            `https://restcountries.com/v3.1/name/${country}?fullText=true`
           );
           const jsonData = await data.json();
           setCountryList(convertCountryList(jsonData));
-          // setCountryList();
         } catch (error) {
           console.log(error);
         }
