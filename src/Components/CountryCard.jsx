@@ -2,24 +2,31 @@ import React from 'react'
 
 const CountryCard = ({country}) => {      
     
-    
+    const {
+        countryName,
+        capital,
+        flag,
+        population,
+        region} = country;
    
   return (
     <div
         style={{
-          height: "450px",
-          width: "350px",
-          border: "1px solid",
+          height: "340px",
+          width: "290px",
           display: "flex",
           justifyContent: "space-around",
           alignItems: "center",
           flexDirection: "column",
+          boxShadow: "1px 1px 5px grey", // need to give the body color
+          borderRadius: "0.5rem",
+          overflow: "hidden"
           
         }}
       >
-        <div style={{ width: "100%", height: "45%", border: "1px solid" }}>
+        <div style={{ width: "100%", height: "49%", }}>
           <img
-            src={country.flag}
+            src={flag}
             alt={"photo"}
             style={{ height: "100%", objectFit: "cover", width: "100%" }}
           />
@@ -27,27 +34,28 @@ const CountryCard = ({country}) => {
         <div
           style={{
             width: "80%",
-            height: "55%",
-            border: "1px solid",
+            height: "51%",
+            
             display: "flex",
-            justifyContent: "space-around",
+            justifyContent: "space-evenly",
             alignItems: "flex-start",
             flexDirection: "column",
           }}
         >
-          <span>Country</span>
+          <span style={{fontSize: "1.2rem", fontWeight: "bold"}}>{countryName}</span>
           <div
             style={{
               width: "80%",
               display: "flex",
               justifyContent: "center",
+              gap: "0.5rem",
               alignItems: "flex-start",
               flexDirection: "column",
             }}
           >
-            <span>Population: 46,88,88,8</span>
-            <span>Region: Europe</span>
-            <span>Capital: Berlin</span>
+            <span style={{fontSize: "1rem"}}>Population: {population}</span>
+            <span style={{fontSize: "1rem"}}>Region: {region}</span>
+            <span style={{fontSize: "1rem"}}>Capital: {capital}</span>
           </div>
         </div>
       </div>

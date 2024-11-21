@@ -22,42 +22,58 @@ function App() {
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
-
   useEffect(() => {
-
     const controller = new AbortController();
     const { signal } = controller;
     const fetchCountry = async (country) => {
-      if(onlyRegionCountries?.length > 0 && regionList.includes(onlyRegionCountries)){
-        if(country?.length > 0){
-          setCountryList(regionalCountryCopy.filter(x => x["country"].countryName.toLowerCase().indexOf(country) !== -1))
-        }else if(!country){
+      if (
+        onlyRegionCountries?.length > 0 &&
+        regionList.includes(onlyRegionCountries)
+      ) {
+        if (country?.length > 0) {
+          setCountryList(
+            regionalCountryCopy.filter(
+              (x) =>
+                x["country"].countryName.toLowerCase().indexOf(country) !== -1
+            )
+          );
+        } else if (!country) {
           try {
-            const data = await fetch(`https://restcountries.com/v3.1/region/${getRegion}`);
+            const data = await fetch(
+              `https://restcountries.com/v3.1/region/${getRegion}`
+            );
             const jsonData = await data.json();
-            setCountryList(convertCountryList(jsonData));
+            if (jsonData) {
+              setCountryList(convertCountryList(jsonData));
+            }
           } catch (error) {
-            console.log(error)
+            console.log(error);
           }
         }
-      }else{
-        if(country?.length >= 1){
+      } else {
+        if (country?.length >= 1) {
           try {
             const data = await fetch(
               `https://restcountries.com/v3.1/name/${country}`
             );
             const jsonData = await data.json();
-  
-            setCountryList(convertCountryList(jsonData));
+            if (jsonData) {
+              setCountryList(convertCountryList(jsonData));
+            }
           } catch (error) {
             console.log(error);
           }
-        }else{
+        } else {
           try {
-            const data = await fetch("https://restcountries.com/v3.1/all", signal);
+            const data = await fetch(
+              "https://restcountries.com/v3.1/all",
+              signal
+            );
             const jsonData = await data.json();
-            setRegionList(convertRegionList(jsonData));
-            setCountryList(convertCountryList(jsonData));
+            if (jsonData) {
+              setRegionList(convertRegionList(jsonData));
+              setCountryList(convertCountryList(jsonData));
+            }
           } catch (error) {
             console.log(error);
           }
@@ -65,10 +81,7 @@ function App() {
       }
     };
 
-
-
-    fetchCountry(getCountry)
-
+    fetchCountry(getCountry);
 
     return () => {
       controller.abort();
@@ -76,42 +89,43 @@ function App() {
   }, [getCountry]);
 
   useEffect(() => {
-   
-    const fetchRegionalCountries = async(region) => {
-      if(region === "All"){
+    const fetchRegionalCountries = async (region) => {
+      if (region === "All") {
         try {
           const data = await fetch("https://restcountries.com/v3.1/all");
           const jsonData = await data.json();
-          setCountry("");
-          setOnlyRegionCountries("");
-          setCountryList(convertCountryList(jsonData));
+          if (jsonData) {
+            setOnlyRegionCountries("");
+            setCountry("");
+            setCountryList(convertCountryList(jsonData));
+          }
         } catch (error) {
           console.log(error);
         }
-      }else {
+      } else {
         try {
-          const data = await fetch(`https://restcountries.com/v3.1/region/${region}`);
+          const data = await fetch(
+            `https://restcountries.com/v3.1/region/${region}`
+          );
           const jsonData = await data.json();
-          setCountry("");
-          setOnlyRegionCountries(region);
-          regionalCountryCopy = convertCountryList(jsonData) 
-          setCountryList(convertCountryList(jsonData));
+          if (jsonData) {
+            setCountry("");
+            setOnlyRegionCountries(region);
+            regionalCountryCopy = convertCountryList(jsonData);
+            setCountryList(convertCountryList(jsonData));
+          }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
-      
+    };
+    if (getRegion?.length > 0) {
+      fetchRegionalCountries(getRegion);
     }
-    if(getRegion?.length > 0){
-        fetchRegionalCountries(getRegion);
-    }
-
-  }, [getRegion])
-
-
+  }, [getRegion]);
 
   const specificRegion = (region) => {
-    setRegion(region)
+    setRegion(region);
   };
 
   const switchTheme = () => {
@@ -138,13 +152,10 @@ function App() {
   };
 
   const convertRegionList = (jsonData) => {
-    return jsonData.reduce(
-      (acc, { region }) => {
-        acc.push(region)
-        return [...new Set(acc)];
-      },
-      []
-    );
+    return jsonData.reduce((acc, { region }) => {
+      acc.push(region);
+      return [...new Set(acc)];
+    }, []);
   };
 
   return (
@@ -162,12 +173,22 @@ function App() {
       >
         <Navigation />
 
-        <SearchMedia setCountry={setCountry} getCountry={getCountry} specificRegion={specificRegion} regionList={regionList}/>
+        <SearchMedia
+          setCountry={setCountry}
+          getCountry={getCountry}
+          specificRegion={specificRegion}
+          regionList={regionList}
+        />
 
-        <CountryDashboard countryList={countryList} />
+        {countryList?.length > 0 && (
+          <CountryDashboard countryList={countryList} />
+        )}
       </div>
     </modeContext.Provider>
   );
 }
 
 export default App;
+
+// restricted to use context hook?
+// filter and search?
