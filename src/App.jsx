@@ -16,6 +16,7 @@ function App() {
 
   const [countryList, setCountryList] = useState([]);
   const [getCountry, setCountry] = useState("");
+  const [debounceTimer, setDebounceTimer] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,24 +39,48 @@ function App() {
   }, []);
 
   useEffect(() => {
+
+    const controller = new AbortController();
+    const { signal } = controller;
     const fetchCountry = async (country) => {
-      console.log(country);
-      try {
-        const data = await fetch(
-          `https://restcountries.com/v3.1/name/${country}`
-        );
-        const jsonData = await data.json();
-        console.log(convertCountryList(jsonData));
-        setCountryList(convertCountryList(jsonData));
-        // setCountryList();
-      } catch (error) {
-        console.log(error);
+      if(country?.length){
+        try {
+          const data = await fetch(
+            `https://restcountries.com/v3.1/name/${country}`
+          );
+          const jsonData = await data.json();
+          setCountryList(convertCountryList(jsonData));
+          // setCountryList();
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
 
-    if (getCountry?.length) {
-      fetchCountry(getCountry);
+
+    if (debounceTimer !== 0) {
+      clearTimeout(debounceTimer);
     }
+
+    const newTimer = setTimeout(async() => {
+      if (getCountry?.length > 0) {
+        fetchCountry(getCountry);
+      }else {
+        try {
+          const data = await fetch("https://restcountries.com/v3.1/all", signal);
+          const jsonData = await data.json();
+          setCountryList(convertCountryList(jsonData));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }, 600);
+
+    setDebounceTimer(newTimer);
+
+    return () => {
+      controller.abort();
+    };
   }, [getCountry]);
 
   const specificCountries = (country) => {
@@ -63,7 +88,6 @@ function App() {
   };
 
   const switchTheme = () => {
-    // console.log(getTheme)
     setTheme(!getTheme);
   };
 
@@ -100,6 +124,7 @@ function App() {
         }}
       >
         <Navigation />
+
         <SearchMedia specificCountries={specificCountries} />
 
         <CountryDashboard countryList={countryList} />
