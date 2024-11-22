@@ -254,3 +254,4 @@ function App() {
 
 export default App;
 
+// do we have to persist the data and work on the functionality or is it mandatory to do api calls?

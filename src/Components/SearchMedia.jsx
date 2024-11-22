@@ -14,7 +14,7 @@ const SearchMedia = ({
   };
 
   if(!pageSwitch){return (
-    <div style={{display: "flex", width: "95%", justifyContent: "space-between", border: "1px solid"}}>
+    <div style={{display: "flex", width: "78%", justifyContent: "space-between",  margin: "2rem 0 2rem 0"}}>
       <input
         type="text"
         placeholder="search for country"

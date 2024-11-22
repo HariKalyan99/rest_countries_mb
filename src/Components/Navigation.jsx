@@ -6,10 +6,11 @@ import { modeContext } from "../App";
 const Navigation = () => {
   const { switchTheme, getTheme } = useContext(modeContext);
   return (
-    <div
+    <div style={{width: "100%", height: "100%", boxShadow: "1px 0px 5px grey", display: 'flex', justifyContent: "center"}}>
+      <div
       style={{
-        height: "3rem",
-        width: "100%",
+        height: "4rem",
+        width: "80%",
         padding: "0 1rem 0 1rem",
         backgroundColor: "white",
         position: "sticky",
@@ -34,6 +35,7 @@ const Navigation = () => {
           </>
         )}
       </div>
+    </div>
     </div>
   );
 };

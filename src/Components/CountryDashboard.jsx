@@ -13,7 +13,7 @@ const CountryDashboard = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "95%",
+        width: "80%",
         height: "100%",
         flexWrap: "wrap",
         gap: "5rem",
