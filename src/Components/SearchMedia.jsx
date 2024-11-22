@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { modeContext } from "../App";
 import { FaSearch } from "react-icons/fa";
 

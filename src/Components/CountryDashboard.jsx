@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import CountryCard from "./CountryCard";
 import { modeContext } from "../App";
 import SearchMedia from "./SearchMedia";

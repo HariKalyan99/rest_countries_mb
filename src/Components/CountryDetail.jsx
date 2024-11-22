@@ -27,7 +27,7 @@ const CountryDetail = () => {
 
   function populationConvert(val){
     return val
-  }
+  } //population convertion
 
   const borderCountry = (border) => {
     let countryList = JSON.parse(localStorage.getItem("countryList"))?.filter(x => x["country"]["border1"] === border)[0];
@@ -42,15 +42,16 @@ const CountryDetail = () => {
   
     return (
       <div
-        style={{
-          width: "100%",
-          height: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          gap: "4rem"
-        }}
+        // style={{
+        //   width: "100%",
+        //   height: "80vh",
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   alignItems: "center",
+        //   flexDirection: "column",
+        //   gap: "4rem"
+        // }}
+        className="w-[100%] h-screen flex justify-center items-center flex-col gap4"
       >
             <div style={{width: "80%"}}>
             <div style={{ width: "8rem", height: "2.7rem" }}>
