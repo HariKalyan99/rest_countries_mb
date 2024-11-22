@@ -13,6 +13,9 @@ export default {
       'lightModeBackground': 'hsl(0, 0%, 98%)',
       'DarkModeText&LightModeElements': 'hsl(0, 0%, 100%)',
     },
+    screens: {
+      'sm': '345px',
+    },
     
     extend: {},
   },

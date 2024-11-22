@@ -91,19 +91,19 @@ const CountryDetail = () => {
               </div>
               <div style={{width: "100%", height: "50%",  display: "flex", justifyContent: "space-between"}}>
                 <div style={{width: '40%', height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-start", gap: "0.8rem"}}>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Native Name:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.nativeName}</span></span>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Population:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.population}</span></span>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Region:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.region}</span></span>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Sub Region:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.subregion || "N/A"}</span></span>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Capital:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.capital}</span></span>
+                <span className="text-base font-bold">Native Name:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.nativeName}</span></span>
+                <span className="text-base font-bold">Population:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.population}</span></span>
+                <span className="text-base font-bold">Region:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.region}</span></span>
+                <span className="text-base font-bold">Sub Region:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.subregion || "N/A"}</span></span>
+                <span className="text-base font-bold">Capital:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.capital}</span></span>
 
                 </div>
                 <div style={{width: '40%', height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-start",alignItems: "flex-start", gap: "0.8rem"}}>
                
                
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Top Level Domain:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.tld}</span></span>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Currencies:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.currencies || "N/A"}</span></span>
-                <span style={{fontSize: "0.9rem", fontWeight: "bold"}}>Languages:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.capital}</span></span>
+                <span className="text-base font-bold">Top Level Domain:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.tld}</span></span>
+                <span className="text-base font-bold">Currencies:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.currencies || "N/A"}</span></span>
+                <span className="text-base font-bold">Languages:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.capital}</span></span>
                 </div>
               </div>
               <div style={{display: "flex" ,width: "100%", height: "10%",  display: "flex", justifyContent:"flex-start", gap: "0.8rem", alignItems: "center"}}>

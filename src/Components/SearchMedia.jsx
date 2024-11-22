@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { modeContext } from "../App";
+import { FaSearch } from "react-icons/fa";
 
 const SearchMedia = () => {
   const { setCountry, getCountry, specificRegion, regionList, getTheme } =
@@ -10,28 +11,28 @@ const SearchMedia = () => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        width: "78%",
-        justifyContent: "space-between",
-        margin: "2rem 0 2rem 0",
-      }}
+      className="flex w-[78%] justify-between my-8 md:flex-wrap sm:flex-wrap md:gap-5 sm:gap-5 "
     >
+      <div className="flex w-[500px] justify-center items-center border-none rounded-lg">
+      <label id="country-input" className={`${getTheme ? "bg-darkModeElements" : "bg-DarkModeText&LightModeElements"} text-lightModeInput w-[10%] h-[3.2rem] flex justify-center items-center rounded-l-lg`}><FaSearch /></label>
       <input
         type="text"
-        placeholder="search for country"
+        placeholder="Search for country..."
         onChange={(e) => setCountry(e.target.value)}
         value={getCountry}
-        style={{ height: "3.2rem", width: "30%" }}
+        className={`w-[90%] h-[3.2rem] ${getTheme ? "bg-darkModeElements" : "bg-DarkModeText&LightModeElements"} text-lightModeInput outline-none rounded-r-lg`}
       />
+      </div>
+      {/* select tags arrow need to customizeds */}
 
       <select
         name="filter-countries-search"
         id="countries-search"
         defaultValue="Filter by Region"
         onChange={(e) => handleFilter(e.target.value)}
-        style={{ height: "3.2rem", width: "20%", backgroundColor: `${getTheme ? "black" : "white"}` }}
+        className={`w-[200px] h-[3.2rem] ${getTheme ? "bg-darkModeElements text-DarkModeText&LightModeElements" : "bg-DarkModeText&LightModeElements"} border-none rounded-lg outline-none ps-3` }
       >
+      
         <option value="Filter by Region" disabled hidden>
           Filter by Region
         </option>

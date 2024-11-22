@@ -227,16 +227,9 @@ function App() {
       }}
     >
       <div
-        // style={{
-        //   backgroundColor: `${getTheme ? "black" : "white"}`,
-        //   width: "100%",
-        //   height: "auto",
-        //   display: "flex",
-        //   justifyContent: "center",
-        //   alignItems: "center",
-        //   flexDirection: "column",
-        // }}
-        className={`w-full flex justify-center flex-col items-center h-full ${getTheme ? "bg-darkModeBackground" : "bg-lightModeBackground"}`}
+        className={`w-full flex justify-start flex-col items-center h-full min-h-[100vh] ${
+          getTheme ? "bg-darkModeBackground" : "bg-lightModeBackground"
+        }`}
       >
         <Navigation />
 

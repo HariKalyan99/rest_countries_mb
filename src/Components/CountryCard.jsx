@@ -1,73 +1,47 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { modeContext } from "../App";
 
-const CountryCard = ({country, countryDeatilFn}) => {      
-    
-    const {
-        countryName,
-        capital,
-        flag,
-        population,
-        region} = country;
+const CountryCard = ({ country, countryDeatilFn }) => {
+  const { getTheme } = useContext(modeContext);
+  const { countryName, capital, flag, population, region } = country;
 
-        const handleClick = (name) => {
-            countryDeatilFn(name, region)
-        }
-   
+  const handleClick = (name) => {
+    countryDeatilFn(name, region);
+  };
+
   return (
-    <Link 
-    to={"/country-detail"}
-        style={{
-          height: "340px",
-          width: "290px",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-          flexDirection: "column",
-          boxShadow: "1px 1px 5px grey", // need to give the body color
-          borderRadius: "0.5rem",
-          overflow: "hidden",
-          
-        }}
-
-        onClick={() => handleClick(countryName)}
-      >
-        <div style={{ width: "100%", height: "49%", }}>
-          <img
-            src={flag}
-            alt={"photo"}
-            style={{ height: "100%", objectFit: "cover", width: "100%" }}
-          />
+    <Link
+      to={"/country-detail"}
+      className={`h-[350px] w-[300px] flex justify-around items-center flex-col shadow rounded-lg ${
+        getTheme ? "bg-darkModeElements" : "bg-DarkModeText&LightModeElements"
+      }`}
+      onClick={() => handleClick(countryName)}
+    >
+      <div className="w-[100%] h-[49%] rounded-t-lg overflow-hidden">
+        <img
+          src={flag}
+          alt={"photo"}
+          className="w-[100%] h-[100%] object-cover rounded-t-lg"
+        />
+      </div>
+      {getTheme ? <div className="w-[80%] h-[51%] flex justify-evenly items-start flex-col text-DarkModeText&LightModeElements pb-3">
+        <span className="text-lg font-bold">{countryName}</span>
+        <div className="w-[80%] flex justify-center gap-1 items-start flex-col">
+          <span className="text-sm text-DarkModeText&LightModeElements">Population: {population}</span>
+          <span className="text-sm text-DarkModeText&LightModeElements">Region: {region}</span>
+          <span className="text-sm text-DarkModeText&LightModeElements">Capital: {capital}</span>
         </div>
-        <div
-          style={{
-            width: "80%",
-            height: "51%",
-            
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "flex-start",
-            flexDirection: "column",
-          }}
-        >
-          <span style={{fontSize: "1.2rem", fontWeight: "bold"}}>{countryName}</span>
-          <div
-            style={{
-              width: "80%",
-              display: "flex",
-              justifyContent: "center",
-              gap: "0.5rem",
-              alignItems: "flex-start",
-              flexDirection: "column",
-            }}
-          >
-            <span style={{fontSize: "1rem"}}>Population: {population}</span>
-            <span style={{fontSize: "1rem"}}>Region: {region}</span>
-            <span style={{fontSize: "1rem"}}>Capital: {capital}</span>
-          </div>
+      </div> : <div className="w-[80%] h-[51%] flex justify-evenly items-start flex-col text-DarkModeText&LightModeElements pb-3">
+        <span className="text-lg font-bold text-lightModeText">{countryName}</span>
+        <div className="w-[80%] flex justify-center gap-1 items-start flex-col">
+          <span className="text-sm text-lightModeText">Population: {population}</span>
+          <span className="text-sm text-lightModeText">Region: {region}</span>
+          <span className="text-sm text-lightModeText">Capital: {capital}</span>
         </div>
-      </Link>
-  )
-}
+      </div>}
+    </Link>
+  );
+};
 
-export default CountryCard
+export default CountryCard;
