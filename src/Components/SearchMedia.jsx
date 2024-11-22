@@ -8,12 +8,11 @@ const SearchMedia = ({
   regionList,
 }) => {
 
-    const {pageSwitch} = useContext(modeContext)
   const handleFilter = (val) => {
     specificRegion(val);
   };
 
-  if(!pageSwitch){return (
+  return (
     <div style={{display: "flex", width: "78%", justifyContent: "space-between",  margin: "2rem 0 2rem 0"}}>
       <input
         type="text"
@@ -40,7 +39,7 @@ const SearchMedia = ({
         ))}
       </select>
     </div>
-  );}
+  );
 };
 
 export default SearchMedia;

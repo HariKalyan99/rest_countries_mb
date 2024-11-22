@@ -4,7 +4,7 @@ import { modeContext } from "../App";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CountryDetail = () => {
-  const { setPageSwitch, pageSwitch, countryDeatil, setCountryDetail } =
+  const {  countryDeatil, setCountryDetail } =
     useContext(modeContext);
 
   const [countryDetailList, setCountryDetailList] = useState({});
@@ -14,23 +14,8 @@ const CountryDetail = () => {
       const countryData = JSON.parse(localStorage.getItem("countryList")).map(
         (x) => x["country"]
       );
-
-      const { region, countryName } = countryData.filter(
-        (x) => x["countryName"] === countryDeatil
-      )[0];
-      let borderObj = {};
-
-      if(region?.length > 0 && countryName?.length > 0){
-        let ans = await fetchSpecificBorder(region, countryName);
-        if(ans?.length > 0){
-
-          borderObj[countryName] = borderObj[countryName] || [];
-          borderObj[countryName] = [...ans];
-          let newCountryObj = {...countryData.filter((x) => x["countryName"] === countryDeatil)[0], borders: borderObj[`${countryName}`]}
-          setCountryDetailList(newCountryObj);
-          }
-      }
-      
+      let newCountryObj = {...countryData.filter((x) => x["countryName"] === countryDeatil)[0]}
+      setCountryDetailList(newCountryObj);
     };
 
     if (countryDeatil?.length >= 1) {
@@ -39,20 +24,6 @@ const CountryDetail = () => {
     
   }, [countryDeatil]);
 
-  const fetchSpecificBorder = async (region, countryName) => {
-    try {
-      const data = await fetch(
-        `https://restcountries.com/v3.1/region/${region}`
-      );
-      const jsonData = await data.json();
-      return (
-        jsonData.filter((x) => x["name"]["common"] === countryName)[0]
-          ?.borders || ["no borders"]
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   function populationConvert(val){
     return val
@@ -69,7 +40,6 @@ const CountryDetail = () => {
   } 
 
   
-  if (pageSwitch) {
     return (
       <div
         style={{
@@ -87,7 +57,7 @@ const CountryDetail = () => {
           <Link
             style={{ textDecoration: "none", color: "black" }}
             to={"/"}
-            onClick={() => setPageSwitch(!pageSwitch)}
+            
           >
             <div
               style={{
@@ -148,7 +118,6 @@ const CountryDetail = () => {
         {/* <button onClick={() => setCountryDetail("India")}>get India</button> */}
       </div>
     );
-  }
 };
 
 export default CountryDetail;

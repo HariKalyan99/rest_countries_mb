@@ -8,7 +8,7 @@ import CountryDetail from './Components/CountryDetail.jsx';
 
 const router = createBrowserRouter([
   {path: "/", element: <App />, children: [
-    {path: "/", element: <CountryDashboard />},
+    {path: "/" ,element: <CountryDashboard />},
     {path: "/country-detail", element: <CountryDetail />},
   ]}
 ])

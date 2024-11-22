@@ -1,19 +1,18 @@
 import { createContext, useEffect, useState } from "react";
 import Navigation from "./Components/Navigation";
-import SearchMedia from "./Components/SearchMedia";
-import CountryDashboard from "./Components/CountryDashboard";
-import CountryDetail from "./Components/CountryDetail";
 import { Outlet } from "react-router-dom";
 
 export const modeContext = createContext({
   switchTheme: () => {},
   getTheme: false,
-  setPageSwitch: () => {},
-  pageSwitch: false,
   countryList: [],
   countryDeatilFn: () => {},
   countryDeatil: [],
   setCountryDetail: () => {},
+  setCountry: () => {},
+  getCountry: "",
+  specificRegion: () => {},
+  regionList: "",
 });
 
 let regionalCountryCopy;
@@ -30,7 +29,7 @@ function App() {
   // const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
-  const [pageSwitch, setPageSwitch] = useState(false);
+
 
   const [countryDeatil, setCountryDetail] = useState("");
 
@@ -128,6 +127,7 @@ function App() {
             setCountry("");
             setOnlyRegionCountries(region);
             regionalCountryCopy = convertCountryList(jsonData);
+            console.log(regionalCountryCopy);
             setCountryList(convertCountryList(jsonData));
           }
         } catch (error) {
@@ -164,6 +164,7 @@ function App() {
           borderCountries,
           cca3,
           cca2,
+          borders
         }
       ) => {
         let countryObj = {};
@@ -192,6 +193,8 @@ function App() {
         countryObj["country"]["borderCountries"] = borderCountries;
         countryObj["country"]["border1"] = cca3;
         countryObj["country"]["border2"] = cca2;
+        countryObj["country"]["borders"] = borders || ["no borders"];
+
 
         acc.push(countryObj);
         return acc;
@@ -208,8 +211,6 @@ function App() {
   };
 
   const countryDeatilFn = async (country) => {
-    setPageSwitch(!pageSwitch);
-
     setCountryDetail(country);
   };
 
@@ -218,12 +219,14 @@ function App() {
       value={{
         switchTheme,
         getTheme,
-        setPageSwitch,
-        pageSwitch,
         countryList,
         countryDeatilFn,
         countryDeatil,
         setCountryDetail,
+        setCountry,
+getCountry,
+specificRegion,
+regionList,
       }}
     >
       <div
@@ -239,12 +242,6 @@ function App() {
       >
         <Navigation />
 
-        <SearchMedia
-          setCountry={setCountry}
-          getCountry={getCountry}
-          specificRegion={specificRegion}
-          regionList={regionList}
-        />
 
         <Outlet />
       </div>

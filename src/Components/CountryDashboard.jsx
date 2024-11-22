@@ -1,13 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import CountryCard from "./CountryCard";
 import { modeContext } from "../App";
+import SearchMedia from "./SearchMedia";
 
 const CountryDashboard = () => {
 
-    const { pageSwitch, countryList, countryDeatilFn} = useContext(modeContext)
+    const { countryList, countryDeatilFn,setCountry,
+      getCountry,
+      specificRegion,
+      regionList} = useContext(modeContext)
 
     
-  if(!pageSwitch && countryList?.length > 0){return (
+  if(countryList?.length > 0){return (
+    <>
+    <SearchMedia
+          setCountry={setCountry}
+          getCountry={getCountry}
+          specificRegion={specificRegion}
+          regionList={regionList}
+        />
     <div
       style={{
         display: "flex",
@@ -25,6 +36,7 @@ const CountryDashboard = () => {
      )}
      
     </div>
+    </>
   );}
 };
 
