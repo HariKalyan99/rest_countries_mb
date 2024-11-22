@@ -22,6 +22,11 @@ function App() {
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
+
+
+  const [countryDeatil, setCountryDetail] = useState("");
+  const [countryDetailList, setCountryDetailList] = useState([]);
+
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
@@ -124,6 +129,25 @@ function App() {
     }
   }, [getRegion]);
 
+
+  useEffect(() => {
+    const fetchSpecificCountry = async (country) => {
+        try {
+          const data = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+          const jsonData = await data.json();
+          if (jsonData) {
+            console.log(convertCountryList(jsonData));
+            setCountryDetailList(convertCountryList(jsonData));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+    };
+    if (countryDeatil?.length >= 1) {
+      fetchSpecificCountry(countryDeatil);
+    }
+  }, [countryDeatil]);
+
   const specificRegion = (region) => {
     setRegion(region);
   };
@@ -158,6 +182,12 @@ function App() {
     }, []);
   };
 
+
+  const countryDeatilFn = (country) => {
+    // console.log(country)
+    setCountryDetail(country);
+  }
+
   return (
     <modeContext.Provider value={{ switchTheme, getTheme }}>
       <div
@@ -181,7 +211,7 @@ function App() {
         />
 
         {countryList?.length > 0 && (
-          <CountryDashboard countryList={countryList} />
+          <CountryDashboard countryDeatilFn={countryDeatilFn} countryList={countryList} />
         )}
       </div>
     </modeContext.Provider>

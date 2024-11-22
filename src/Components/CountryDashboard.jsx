@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import CountryCard from "./CountryCard";
 
-const CountryDashboard = ({countryList}) => {
+const CountryDashboard = ({countryList, countryDeatilFn}) => {
 
   return (
     <div
@@ -17,7 +17,7 @@ const CountryDashboard = ({countryList}) => {
       }}
     >
      {countryList?.length > 0 && countryList.map(({country}, ind) => 
-        <CountryCard key={ind} country={country}/>
+        <CountryCard countryDeatilFn={countryDeatilFn} key={ind} country={country}/>
      )}
      
     </div>

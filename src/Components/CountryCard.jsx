@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CountryCard = ({country}) => {      
+const CountryCard = ({country, countryDeatilFn}) => {      
     
     const {
         countryName,
@@ -8,6 +8,10 @@ const CountryCard = ({country}) => {
         flag,
         population,
         region} = country;
+
+        const handleClick = (name) => {
+            countryDeatilFn(name)
+        }
    
   return (
     <div
@@ -20,9 +24,11 @@ const CountryCard = ({country}) => {
           flexDirection: "column",
           boxShadow: "1px 1px 5px grey", // need to give the body color
           borderRadius: "0.5rem",
-          overflow: "hidden"
+          overflow: "hidden",
           
         }}
+
+        onClick={() => handleClick(countryName)}
       >
         <div style={{ width: "100%", height: "49%", }}>
           <img
