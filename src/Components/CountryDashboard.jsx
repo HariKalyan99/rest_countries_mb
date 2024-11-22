@@ -13,23 +13,19 @@ const CountryDashboard = () => {
     
   if(countryList?.length > 0){return (
     <>
-    <SearchMedia
-          setCountry={setCountry}
-          getCountry={getCountry}
-          specificRegion={specificRegion}
-          regionList={regionList}
-        />
+    <SearchMedia />
     <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "80%",
-        height: "100%",
-        flexWrap: "wrap",
-        gap: "5rem",
-        marginTop: "2rem",
-      }}
+      // style={{
+      //   display: "flex",
+      //   justifyContent: "center",
+      //   alignItems: "center",
+      //   width: "80%",
+      //   height: "100%",
+      //   flexWrap: "wrap",
+      //   gap: "5rem",
+      //   marginTop: "2rem",
+      // }}
+      className="container flex flex-wrap gap-20 justify-center w-full py-6"
     >
      {countryList?.length > 0 && countryList.map(({country}, ind) => 
         <CountryCard countryDeatilFn={countryDeatilFn} key={ind} country={country}/>

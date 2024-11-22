@@ -29,8 +29,6 @@ function App() {
   // const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
-
-
   const [countryDeatil, setCountryDetail] = useState("");
 
   useEffect(() => {
@@ -164,7 +162,7 @@ function App() {
           borderCountries,
           cca3,
           cca2,
-          borders
+          borders,
         }
       ) => {
         let countryObj = {};
@@ -195,7 +193,6 @@ function App() {
         countryObj["country"]["border2"] = cca2;
         countryObj["country"]["borders"] = borders || ["no borders"];
 
-
         acc.push(countryObj);
         return acc;
       },
@@ -224,24 +221,24 @@ function App() {
         countryDeatil,
         setCountryDetail,
         setCountry,
-getCountry,
-specificRegion,
-regionList,
+        getCountry,
+        specificRegion,
+        regionList,
       }}
     >
       <div
-        style={{
-          backgroundColor: `${getTheme ? "black" : "white"}`,
-          width: "100%",
-          height: "auto",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
+        // style={{
+        //   backgroundColor: `${getTheme ? "black" : "white"}`,
+        //   width: "100%",
+        //   height: "auto",
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   alignItems: "center",
+        //   flexDirection: "column",
+        // }}
+        className={`w-full flex justify-center flex-col items-center h-full ${getTheme ? "bg-darkModeBackground" : "bg-lightModeBackground"}`}
       >
         <Navigation />
-
 
         <Outlet />
       </div>

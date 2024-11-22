@@ -1,42 +1,34 @@
 import React, { useContext } from "react";
-import { IoMoonOutline } from "react-icons/io5";
-import { CiSun } from "react-icons/ci";
+import { IoMoon } from "react-icons/io5";
 import { modeContext } from "../App";
 
 const Navigation = () => {
   const { switchTheme, getTheme } = useContext(modeContext);
   return (
-    <div style={{width: "100%", height: "100%", boxShadow: "1px 0px 5px grey", display: 'flex', justifyContent: "center"}}>
-      <div
-      style={{
-        height: "4rem",
-        width: "80%",
-        padding: "0 1rem 0 1rem",
-        backgroundColor: "white",
-        position: "sticky",
-        top: 0,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        cursor: "pointer",
-      }}
-    >
-      <h1>Where in the world?</h1>
-      <div style={{ display: "flex" }} onClick={() => switchTheme()}>
-        {getTheme ? (
-          <>
-            <CiSun />
-            <span>Light mode</span>
-          </>
-        ) : (
-          <>
-            <IoMoonOutline />
-            <span>Dark mode</span>
-          </>
-        )}
+
+    
+    <>
+    {getTheme ? <div className="bg-darkModeElements w-full h-[4rem] flex justify-center items-center  shadow sticky top-0 cursor-pointer">
+      <div className="w-[80%] flex justify-between items-center sticky top-0"  onClick={() => switchTheme()}>
+      <h1 className={`text-DarkModeText&LightModeElements`}>Where in the world?</h1>
+      <div className="flex justify-center items-center gap-2">
+              <IoMoon className={`text-DarkModeText&LightModeElements`}/>
+            <span className={`text-DarkModeText&LightModeElements`}>Dark mode</span>
       </div>
+</div>
+    </div> :
+    
+    <div className="bg-lightModeBackground w-full h-[4rem] flex justify-center items-center  shadow sticky top-0 cursor-pointer">
+ <div className="w-[80%] flex justify-between items-center sticky top-0">
+<h1 className={`text-lightModeText`}>Where in the world?</h1>
+      <div className="flex justify-center items-center gap-2" onClick={() => switchTheme()}>
+            <IoMoon className={`text-lightModeText`}/>
+            <span className={`text-lightModeText`}>Dark mode</span>
+      </div>
+  </div>
     </div>
-    </div>
+   }
+    </>
   );
 };
 
