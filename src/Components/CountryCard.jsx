@@ -11,7 +11,7 @@ const CountryCard = ({country, countryDeatilFn}) => {
         region} = country;
 
         const handleClick = (name) => {
-            countryDeatilFn(name)
+            countryDeatilFn(name, region)
         }
    
   return (

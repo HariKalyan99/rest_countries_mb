@@ -12,7 +12,8 @@ export const modeContext = createContext({
   pageSwitch: false,
   countryList: [],
   countryDeatilFn: () => {},
-  countryDeatil: []
+  countryDeatil: [],
+  setCountryDetail: () => {},
 });
 
 let regionalCountryCopy;
@@ -26,16 +27,12 @@ function App() {
   const [regionList, setRegionList] = useState([]);
   const [getCountry, setCountry] = useState("");
   const [getRegion, setRegion] = useState("");
-  const [debounceTimer, setDebounceTimer] = useState(null);
+  // const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
   const [pageSwitch, setPageSwitch] = useState(false);
 
-
-
   const [countryDeatil, setCountryDetail] = useState("");
-
-  
 
   useEffect(() => {
     const controller = new AbortController();
@@ -86,7 +83,10 @@ function App() {
             );
             const jsonData = await data.json();
             if (jsonData) {
-              localStorage.setItem("countryList", JSON.stringify(convertCountryList(jsonData)))
+              localStorage.setItem(
+                "countryList",
+                JSON.stringify(convertCountryList(jsonData))
+              );
               setRegionList(convertRegionList(jsonData));
               setCountryList(convertCountryList(jsonData));
             }
@@ -99,35 +99,10 @@ function App() {
 
     fetchCountry(getCountry);
 
-
-    
-
     return () => {
       controller.abort();
     };
   }, [getCountry]);
-
-
-
-  // border preparation
-
-  useEffect(() => {
-    const addBorder = async (countriesArr) => {
-      let borderObj = {};
-      for(let i = 0; i<countriesArr.length; i++){
-        const {country} = countriesArr[i];
-        const {countryName, region} = country;
-        let ans = await fetchSpecificBorder(region, countryName);
-        borderObj[countryName] = borderObj[countryName] || []
-        borderObj[countryName] = [...ans]
-      }
-      localStorage.setItem("borderList", JSON.stringify(borderObj))
-    }
-
-    if(JSON.parse(localStorage.getItem("countryList"))?.length > 0){
-      addBorder(JSON.parse(localStorage.getItem("countryList")))
-    }
-  }, [])
 
   useEffect(() => {
     const fetchRegionalCountries = async (region) => {
@@ -165,9 +140,6 @@ function App() {
     }
   }, [getRegion]);
 
-
- 
-
   const specificRegion = (region) => {
     setRegion(region);
   };
@@ -176,37 +148,37 @@ function App() {
     setTheme(!getTheme);
   };
 
-  const fetchSpecificBorder = async(region, countryName) => {
-    try {
-        const data = await fetch(
-          `https://restcountries.com/v3.1/region/${region}`
-        );
-        const jsonData = await data.json();
-        return jsonData.filter(x => x["name"]["common"] === countryName)[0]?.borders || ["no borders"]
-      } catch (error) {
-        console.log(error);
-      }
-}
-
-
-
   const convertCountryList = (jsonData) => {
-    
     return jsonData.reduce(
-      (acc, { capital, flags, name, population, region, tld, subregion, currencies, borderCountries }) => {
+      (
+        acc,
+        {
+          capital,
+          flags,
+          name,
+          population,
+          region,
+          tld,
+          subregion,
+          currencies,
+          borderCountries,
+          cca3,
+          cca2,
+        }
+      ) => {
         let countryObj = {};
         const { svg, png } = flags;
         const { common, nativeName } = name;
         let native;
         let currency;
-        for(let key in nativeName){
+        for (let key in nativeName) {
           native = nativeName[key]["common"];
         }
 
-        for(let key in currencies){
+        for (let key in currencies) {
           currency = key;
         }
-        
+
         countryObj["country"] = countryObj["country"] || {};
         countryObj["country"][`countryName`] = common;
         countryObj["country"]["capital"] = capital;
@@ -218,9 +190,8 @@ function App() {
         countryObj["country"]["currencies"] = currency;
         countryObj["country"]["nativeName"] = native;
         countryObj["country"]["borderCountries"] = borderCountries;
-
-
-
+        countryObj["country"]["border1"] = cca3;
+        countryObj["country"]["border2"] = cca2;
 
         acc.push(countryObj);
         return acc;
@@ -236,18 +207,25 @@ function App() {
     }, []);
   };
 
+  const countryDeatilFn = async (country) => {
+    setPageSwitch(!pageSwitch);
 
-  const countryDeatilFn = (country) => {
-    // console.log(country)
-    setPageSwitch(!pageSwitch)
     setCountryDetail(country);
-  }
+  };
 
   return (
-    <modeContext.Provider value={{ switchTheme, getTheme,setPageSwitch
-     , pageSwitch,
-      countryList,
-      countryDeatilFn, countryDeatil }}>
+    <modeContext.Provider
+      value={{
+        switchTheme,
+        getTheme,
+        setPageSwitch,
+        pageSwitch,
+        countryList,
+        countryDeatilFn,
+        countryDeatil,
+        setCountryDetail,
+      }}
+    >
       <div
         style={{
           backgroundColor: `${getTheme ? "black" : "white"}`,
@@ -276,5 +254,3 @@ function App() {
 
 export default App;
 
-// restricted to use context hook?
-// filter and search?
