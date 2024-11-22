@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import CountryCard from "./CountryCard";
+import { modeContext } from "../App";
 
-const CountryDashboard = ({countryList, countryDeatilFn}) => {
+const CountryDashboard = () => {
 
-  return (
+    const { pageSwitch, countryList, countryDeatilFn} = useContext(modeContext)
+
+    
+  if(!pageSwitch && countryList?.length > 0){return (
     <div
       style={{
         display: "flex",
@@ -21,7 +25,7 @@ const CountryDashboard = ({countryList, countryDeatilFn}) => {
      )}
      
     </div>
-  );
+  );}
 };
 
 export default CountryDashboard;

@@ -2,10 +2,17 @@ import { createContext, useEffect, useState } from "react";
 import Navigation from "./Components/Navigation";
 import SearchMedia from "./Components/SearchMedia";
 import CountryDashboard from "./Components/CountryDashboard";
+import CountryDetail from "./Components/CountryDetail";
+import { Outlet } from "react-router-dom";
 
 export const modeContext = createContext({
   switchTheme: () => {},
   getTheme: false,
+  setPageSwitch: () => {},
+  pageSwitch: false,
+  countryList: [],
+  countryDeatilFn: () => {},
+  countryDeatil: []
 });
 
 let regionalCountryCopy;
@@ -22,10 +29,13 @@ function App() {
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
+  const [pageSwitch, setPageSwitch] = useState(false);
+
 
 
   const [countryDeatil, setCountryDetail] = useState("");
-  const [countryDetailList, setCountryDetailList] = useState([]);
+
+  
 
   useEffect(() => {
     const controller = new AbortController();
@@ -76,6 +86,7 @@ function App() {
             );
             const jsonData = await data.json();
             if (jsonData) {
+              localStorage.setItem("countryList", JSON.stringify(convertCountryList(jsonData)))
               setRegionList(convertRegionList(jsonData));
               setCountryList(convertCountryList(jsonData));
             }
@@ -88,10 +99,35 @@ function App() {
 
     fetchCountry(getCountry);
 
+
+    
+
     return () => {
       controller.abort();
     };
   }, [getCountry]);
+
+
+
+  // border preparation
+
+  useEffect(() => {
+    const addBorder = async (countriesArr) => {
+      let borderObj = {};
+      for(let i = 0; i<countriesArr.length; i++){
+        const {country} = countriesArr[i];
+        const {countryName, region} = country;
+        let ans = await fetchSpecificBorder(region, countryName);
+        borderObj[countryName] = borderObj[countryName] || []
+        borderObj[countryName] = [...ans]
+      }
+      localStorage.setItem("borderList", JSON.stringify(borderObj))
+    }
+
+    if(JSON.parse(localStorage.getItem("countryList"))?.length > 0){
+      addBorder(JSON.parse(localStorage.getItem("countryList")))
+    }
+  }, [])
 
   useEffect(() => {
     const fetchRegionalCountries = async (region) => {
@@ -130,23 +166,7 @@ function App() {
   }, [getRegion]);
 
 
-  useEffect(() => {
-    const fetchSpecificCountry = async (country) => {
-        try {
-          const data = await fetch(`https://restcountries.com/v3.1/name/${country}`);
-          const jsonData = await data.json();
-          if (jsonData) {
-            console.log(convertCountryList(jsonData));
-            setCountryDetailList(convertCountryList(jsonData));
-          }
-        } catch (error) {
-          console.log(error);
-        }
-    };
-    if (countryDeatil?.length >= 1) {
-      fetchSpecificCountry(countryDeatil);
-    }
-  }, [countryDeatil]);
+ 
 
   const specificRegion = (region) => {
     setRegion(region);
@@ -156,18 +176,52 @@ function App() {
     setTheme(!getTheme);
   };
 
+  const fetchSpecificBorder = async(region, countryName) => {
+    try {
+        const data = await fetch(
+          `https://restcountries.com/v3.1/region/${region}`
+        );
+        const jsonData = await data.json();
+        return jsonData.filter(x => x["name"]["common"] === countryName)[0]?.borders || ["no borders"]
+      } catch (error) {
+        console.log(error);
+      }
+}
+
+
+
   const convertCountryList = (jsonData) => {
+    
     return jsonData.reduce(
-      (acc, { capital, flags, name, population, region }) => {
+      (acc, { capital, flags, name, population, region, tld, subregion, currencies, borderCountries }) => {
         let countryObj = {};
         const { svg, png } = flags;
-        const { common } = name;
+        const { common, nativeName } = name;
+        let native;
+        let currency;
+        for(let key in nativeName){
+          native = nativeName[key]["common"];
+        }
+
+        for(let key in currencies){
+          currency = key;
+        }
+        
         countryObj["country"] = countryObj["country"] || {};
         countryObj["country"][`countryName`] = common;
         countryObj["country"]["capital"] = capital;
         countryObj["country"]["flag"] = svg || png;
         countryObj["country"]["population"] = population;
         countryObj["country"]["region"] = region;
+        countryObj["country"]["subregion"] = subregion;
+        countryObj["country"]["tld"] = tld;
+        countryObj["country"]["currencies"] = currency;
+        countryObj["country"]["nativeName"] = native;
+        countryObj["country"]["borderCountries"] = borderCountries;
+
+
+
+
         acc.push(countryObj);
         return acc;
       },
@@ -185,11 +239,15 @@ function App() {
 
   const countryDeatilFn = (country) => {
     // console.log(country)
+    setPageSwitch(!pageSwitch)
     setCountryDetail(country);
   }
 
   return (
-    <modeContext.Provider value={{ switchTheme, getTheme }}>
+    <modeContext.Provider value={{ switchTheme, getTheme,setPageSwitch
+     , pageSwitch,
+      countryList,
+      countryDeatilFn, countryDeatil }}>
       <div
         style={{
           backgroundColor: `${getTheme ? "black" : "white"}`,
@@ -210,9 +268,7 @@ function App() {
           regionList={regionList}
         />
 
-        {countryList?.length > 0 && (
-          <CountryDashboard countryDeatilFn={countryDeatilFn} countryList={countryList} />
-        )}
+        <Outlet />
       </div>
     </modeContext.Provider>
   );

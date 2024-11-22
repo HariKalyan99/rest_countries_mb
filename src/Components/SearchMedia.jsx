@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { modeContext } from "../App";
 
 const SearchMedia = ({
   setCountry,
@@ -6,11 +7,13 @@ const SearchMedia = ({
   specificRegion,
   regionList,
 }) => {
+
+    const {pageSwitch} = useContext(modeContext)
   const handleFilter = (val) => {
     specificRegion(val);
   };
 
-  return (
+  if(!pageSwitch){return (
     <div style={{display: "flex", width: "95%", justifyContent: "space-between", border: "1px solid"}}>
       <input
         type="text"
@@ -37,7 +40,7 @@ const SearchMedia = ({
         ))}
       </select>
     </div>
-  );
+  );}
 };
 
 export default SearchMedia;

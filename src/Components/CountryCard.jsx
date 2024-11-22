@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const CountryCard = ({country, countryDeatilFn}) => {      
     
@@ -14,7 +15,8 @@ const CountryCard = ({country, countryDeatilFn}) => {
         }
    
   return (
-    <div
+    <Link 
+    to={"/country-detail"}
         style={{
           height: "340px",
           width: "290px",
@@ -64,7 +66,7 @@ const CountryCard = ({country, countryDeatilFn}) => {
             <span style={{fontSize: "1rem"}}>Capital: {capital}</span>
           </div>
         </div>
-      </div>
+      </Link>
   )
 }
 
