@@ -139,7 +139,7 @@ const CountryDetail = () => {
               <div style={{display: "flex" ,width: "100%", height: "10%",  display: "flex", justifyContent:"flex-start", gap: "0.8rem", alignItems: "center"}}>
                 <span style={{fontSize: "1rem", fontWeight: "bold"}}>Border Countries: </span>
                 {countryDetailList[`borders`]?.map((border, ind) => 
-                <div key={ind} style={{width: "15%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "1px 1px 5px black", borderRadius: "0.2rem"}}>
+                <div key={ind} style={{width: "15%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "1px 1px 5px black", borderRadius: "0.2rem", cursor: "pointer"}} onClick={() => setCountryDetail(borderCountry(border))}>
                   <span style={{fontSize: '0.7rem'}}>{borderCountry(border)}</span>
                   </div>)}
               </div>
