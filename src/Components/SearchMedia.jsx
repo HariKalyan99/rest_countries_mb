@@ -25,12 +25,13 @@ const SearchMedia = () => {
       </div>
       {/* select tags arrow need to customizeds */}
 
+      <div className={`px-3 ${getTheme ? "bg-darkModeElements text-DarkModeText&LightModeElements" : "bg-DarkModeText&LightModeElements"}`}>
       <select
         name="filter-countries-search"
         id="countries-search"
         defaultValue="Filter by Region"
         onChange={(e) => handleFilter(e.target.value)}
-        className={`w-[200px] h-[3.2rem] ${getTheme ? "bg-darkModeElements text-DarkModeText&LightModeElements" : "bg-DarkModeText&LightModeElements"} border-none rounded-lg outline-none ps-3` }
+        className={`w-[200px] h-[3.2rem] ${getTheme ? "bg-darkModeElements text-DarkModeText&LightModeElements" : "bg-DarkModeText&LightModeElements"} border-none rounded-lg outline-none` }
       >
       
         <option value="Filter by Region" disabled hidden>
@@ -43,6 +44,7 @@ const SearchMedia = () => {
           </option>
         ))}
       </select>
+      </div>
     </div>
   );
 };

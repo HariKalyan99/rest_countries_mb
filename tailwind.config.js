@@ -14,10 +14,23 @@ export default {
       'DarkModeText&LightModeElements': 'hsl(0, 0%, 100%)',
     },
     screens: {
-      'sm': '345px',
+      'sm': '346px',
+      // => @media (min-width: 576px) { ... }
+
+      'md': '600px',
+      // => @media (min-width: 960px) { ... }
+
+      'lg': '1440px',
+      // => @media (min-width: 1440px) { ... }
     },
     
-    extend: {},
+    
+    extend: {
+
+      // screens: {
+      //   'sm': '345px',
+      // },
+    },
   },
   plugins: [],
 }

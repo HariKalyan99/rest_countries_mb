@@ -39,7 +39,7 @@ const CountryDetail = () => {
   };
 
   return (
-    <div className="w-[100%] h-screen flex justify-center items-center flex-col gap-10">
+    <div className="w-[100%] h-full flex justify-start mt-20 items-center flex-col gap-10">
       {getTheme ? <div className="w-[80%] flex justify-start ">
         <Link className="text-none" to={"/"}>
           <div
@@ -61,23 +61,23 @@ const CountryDetail = () => {
       </div>}
 
       {getTheme ? <>{countryDetailList["countryName"]?.length > 0 && (
-        <div className="w-[80%] h-[50%] flex justify-center items-center gap-20 flex-wrap">
-          <div className="w-[40%] h-[90%]">
+        <div className=" w-[90%] md:w-[80%] h-full flex justify-center  lg:justify-between items-center flex-wrap gap-10">
+          <div className="w-full h-[300px] md:h-[400px] md:w-[500px] lg:w-[45%]">
             <img
               src={countryDetailList.flag}
               alt={`${countryDetailList.flag}_photo`}
               className="w-[100%] h-[100%] object-cover"
             />
           </div>
-
-          <div className="w-[50%] h-[90%] flex justify-around items-center flex-col">
+          
+          <div className="w-full min-h-[300px] md:h-[400px] md:w-[500px] lg:w-[45%] flex justify-around items-center flex-col py-5 md:py-0">
             <div className="w-[100%] h-[15%]">
               <span className="text-xl font-bold text-DarkModeText&LightModeElements">
                 {countryDetailList.countryName}
               </span>
             </div>
             <div className="w-[100%] h-[50%] flex justify-between">
-              <div className="w-[40%] h-[100%] flex flex-col justify-start gap-1">
+              <div className="w-[40%] h-[100%] flex flex-col justify-start gap-4">
                 <span className="text-base font-bold text-DarkModeText&LightModeElements">
                   Native Name:{" "}
                   <span className="text-base font-light text-DarkModeText&LightModeElements">
@@ -109,7 +109,7 @@ const CountryDetail = () => {
                   </span>
                 </span>
               </div>
-              <div className="w-[40%] h-[100%] flex flex-col justify-start items-start g-1">
+              <div className="w-[40%] h-[100%] flex flex-col justify-start items-start gap-4">
                 <span className="text-base font-bold text-DarkModeText&LightModeElements">
                   Top Level Domain:{" "}
                   <span className="text-base font-light text-DarkModeText&LightModeElements">
@@ -130,14 +130,14 @@ const CountryDetail = () => {
                 </span>
               </div>
             </div>
-            <div className="flex w-[100%] h-[10%] justify-start gap-2 items-center flex-wrap">
+            <div className="flex w-[100%] h-[15%] justify-start gap-2 items-center flex-wrap">
               <span className="text-lg font-bold text-DarkModeText&LightModeElements">
                 Border Countries:{" "}
               </span>
               {countryDetailList[`borders`]?.map((border, ind) => (
                 <div
                   key={ind}
-                  className="w-[15%] h-[80%] flex justify-center items-center shadow rounded cursor-pointer bg-darkModeElements"
+                  className="w-[15%] h-[50%] flex justify-center items-center shadow rounded cursor-pointer bg-darkModeElements"
                   onClick={() => setCountryDetail(borderCountry(border))}
                 >
                   <span className="text-xs text-DarkModeText&LightModeElements">
@@ -149,8 +149,8 @@ const CountryDetail = () => {
           </div>
         </div>
       )}</> : <>{countryDetailList["countryName"]?.length > 0 && (
-        <div className="w-[80%] h-[50%] flex justify-center items-center gap-20">
-          <div className="w-[50%] h-[90%]">
+        <div className="w-[90%] md:w-[80%] h-full flex justify-center  lg:justify-between items-center flex-wrap gap-10">
+          <div className="w-full h-[300px] md:h-[400px] md:w-[500px] lg:w-[45%]">
             <img
               src={countryDetailList.flag}
               alt={`${countryDetailList.flag}_photo`}
@@ -158,7 +158,7 @@ const CountryDetail = () => {
             />
           </div>
 
-          <div className="w-[50%] h-[90%] flex justify-around items-center flex-col">
+          <div className="w-full min-h-[300px] md:h-[400px] md:w-[500px] lg:w-[45%] flex justify-around items-center flex-col py-5 md:py-0">
             <div className="w-[100%] h-[15%]">
               <span className="text-xl font-bold text-lightModeText">
                 {countryDetailList.countryName}
