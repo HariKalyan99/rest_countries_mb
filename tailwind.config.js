@@ -14,7 +14,7 @@ export default {
       'DarkModeText&LightModeElements': 'hsl(0, 0%, 100%)',
     },
     screens: {
-      'sm': '346px',
+      'sm': '345px',
       // => @media (min-width: 576px) { ... }
 
       'md': '600px',

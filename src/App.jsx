@@ -91,7 +91,12 @@ function App() {
               setCountryList(convertCountryList(jsonData));
             }
           } catch (error) {
-            console.log(error);
+            if (error.name === 'AbortError') {
+              console.log('Fetch aborted');
+            } else {
+              console.error(error);
+              setError(error.message);
+            }
           }
         }
       }
@@ -118,7 +123,12 @@ function App() {
             setCountryList(convertCountryList(jsonData));
           }
         } catch (error) {
-          console.log(error);
+          if (error.name === 'AbortError') {
+            console.log('Fetch aborted');
+          } else {
+            console.error(error);
+            setError(error.message);
+          }
         }
       } else {
         try {
@@ -134,6 +144,7 @@ function App() {
             setCountryList(convertCountryList(jsonData));
           }
         } catch (error) {
+
           console.log(error);
         }
       }
