@@ -18,12 +18,24 @@ const CountryDetail = () => {
         ...countryData.filter((x) => x["countryName"] === countryDeatil)[0],
       };
       localStorage.setItem("countryObj", JSON.stringify(newCountryObj));
-      setCountryDetailList(newCountryObj);
     };
 
     if (countryDeatil?.length >= 1) {
       fetchLocalCountry();
     }
+
+
+
+    if(localStorage.getItem("countryObj")){
+      setCountryDetailList(JSON.parse(localStorage.getItem("countryObj")));
+    }
+
+
+    return () => {
+      localStorage.setItem("countryObj", JSON.stringify({}))
+    }
+
+
   }, [countryDeatil]);
 
 
