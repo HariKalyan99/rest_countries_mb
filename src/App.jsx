@@ -105,10 +105,12 @@ function App() {
   }, [getCountry]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const fetchRegionalCountries = async (region) => {
       if (region === "All") {
         try {
-          const data = await fetch("https://restcountries.com/v3.1/all");
+          const data = await fetch("https://restcountries.com/v3.1/all", signal);
           const jsonData = await data.json();
           if (jsonData) {
             setOnlyRegionCountries("");
@@ -138,6 +140,11 @@ function App() {
     };
     if (getRegion?.length > 0) {
       fetchRegionalCountries(getRegion);
+    }
+
+
+    return () => {
+      controller.abort()
     }
   }, [getRegion]);
 

@@ -31,9 +31,7 @@ const CountryDetail = () => {
     }
 
 
-    return () => {
-      localStorage.setItem("countryObj", JSON.stringify({}))
-    }
+  
 
 
   }, [countryDeatil]);
