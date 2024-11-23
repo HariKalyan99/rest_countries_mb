@@ -17,6 +17,7 @@ const CountryDetail = () => {
       let newCountryObj = {
         ...countryData.filter((x) => x["countryName"] === countryDeatil)[0],
       };
+      localStorage.setItem("countryObj", JSON.stringify(newCountryObj));
       setCountryDetailList(newCountryObj);
     };
 
@@ -43,7 +44,7 @@ const CountryDetail = () => {
       {getTheme ? <div className="w-[80%] flex justify-start ">
         <Link className="text-none" to={"/"}>
           <div
-            className={`h-[100%] border-none text-DarkModeText&LightModeElements rounded w-[100px] h-[30px] flex justify-center items-center gap-3 shadow bg-darkModeElements`}
+            className={`h-[100%] border-none text-DarkModeText&LightModeElements rounded w-[145px] h-[45px] flex justify-center items-center gap-3 shadow bg-darkModeElements`}
           >
             <FaArrowLeftLong />
             <span> Back</span>
@@ -52,7 +53,7 @@ const CountryDetail = () => {
       </div>: <div className="w-[80%] flex justify-start">
         <Link className="text-none" to={"/"}>
           <div
-            className={`h-[100%] border-none text-lightModeText rounded w-[100px] h-[30px] flex justify-center items-center gap-3 shadow `}
+            className={`h-[100%] border-none text-lightModeText rounded  w-[145px] h-[45px]  flex justify-center items-center gap-3 shadow `}
           >
             <FaArrowLeftLong />
             <span> Back</span>
@@ -137,7 +138,7 @@ const CountryDetail = () => {
               {countryDetailList[`borders`]?.map((border, ind) => (
                 <div
                   key={ind}
-                  className="w-[15%] h-[50%] flex justify-center items-center shadow rounded cursor-pointer bg-darkModeElements"
+                  className="w-[16%] h-[50%] flex justify-center items-center shadow rounded cursor-pointer bg-darkModeElements"
                   onClick={() => setCountryDetail(borderCountry(border))}
                 >
                   <span className="text-xs text-DarkModeText&LightModeElements">
@@ -225,7 +226,7 @@ const CountryDetail = () => {
               {countryDetailList[`borders`]?.map((border, ind) => (
                 <div
                   key={ind}
-                  className="w-[15%] h-[80%] flex justify-center items-center shadow rounded cursor-pointer bg-lightModeBackground"
+                  className="w-[15%] h-[60%] flex justify-center items-center shadow rounded cursor-pointer bg-lightModeBackground"
                   onClick={() => setCountryDetail(borderCountry(border))}
                 >
                   <span className="text-xs text-lightModeText">

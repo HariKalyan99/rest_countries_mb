@@ -13,7 +13,7 @@ const CountryCard = ({ country, countryDeatilFn }) => {
   return (
     <Link
       to={"/country-detail"}
-      className={`h-[350px] w-[300px] flex justify-around items-center flex-col shadow rounded-lg ${
+      className={`h-[370px] w-[300px] flex justify-around items-center flex-col shadow rounded-lg ${
         getTheme ? "bg-darkModeElements" : "bg-DarkModeText&LightModeElements"
       }`}
       onClick={() => handleClick(countryName)}
