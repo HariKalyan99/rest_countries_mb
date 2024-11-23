@@ -13,7 +13,10 @@ export const modeContext = createContext({
   getCountry: "",
   specificRegion: () => {},
   regionList: "",
+  populationConvert: () => {}
 });
+
+
 
 let regionalCountryCopy;
 function App() {
@@ -211,6 +214,13 @@ function App() {
     setCountryDetail(country);
   };
 
+  const populationConvert = (val) => {
+    let intlFormat = new Intl.NumberFormat('en-US')
+    return intlFormat.format(val)
+  }
+
+  
+
   return (
     <modeContext.Provider
       value={{
@@ -224,6 +234,7 @@ function App() {
         getCountry,
         specificRegion,
         regionList,
+        populationConvert
       }}
     >
       <div

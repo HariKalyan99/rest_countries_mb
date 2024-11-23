@@ -7,9 +7,6 @@ const CountryDashboard = () => {
   const {
     countryList,
     countryDeatilFn,
-    getCountry,
-
-    regionList,
   } = useContext(modeContext);
 
   if (countryList?.length > 0) {

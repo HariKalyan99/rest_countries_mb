@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { modeContext } from "../App";
 
 const CountryCard = ({ country, countryDeatilFn }) => {
-  const { getTheme } = useContext(modeContext);
+  const { getTheme, populationConvert } = useContext(modeContext);
   const { countryName, capital, flag, population, region } = country;
 
   const handleClick = (name) => {
@@ -28,14 +28,14 @@ const CountryCard = ({ country, countryDeatilFn }) => {
       {getTheme ? <div className="w-[80%] h-[51%] flex justify-evenly items-start flex-col text-DarkModeText&LightModeElements pb-3">
         <span className="text-lg font-bold">{countryName}</span>
         <div className="w-[80%] flex justify-center gap-1 items-start flex-col">
-          <span className="text-sm text-DarkModeText&LightModeElements">Population: {population}</span>
+          <span className="text-sm text-DarkModeText&LightModeElements">Population: {populationConvert(population)}</span>
           <span className="text-sm text-DarkModeText&LightModeElements">Region: {region}</span>
           <span className="text-sm text-DarkModeText&LightModeElements">Capital: {capital}</span>
         </div>
       </div> : <div className="w-[80%] h-[51%] flex justify-evenly items-start flex-col text-DarkModeText&LightModeElements pb-3">
         <span className="text-lg font-bold text-lightModeText">{countryName}</span>
         <div className="w-[80%] flex justify-center gap-1 items-start flex-col">
-          <span className="text-sm text-lightModeText">Population: {population}</span>
+          <span className="text-sm text-lightModeText">Population: {populationConvert(population)}</span>
           <span className="text-sm text-lightModeText">Region: {region}</span>
           <span className="text-sm text-lightModeText">Capital: {capital}</span>
         </div>

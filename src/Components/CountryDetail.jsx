@@ -4,7 +4,7 @@ import { modeContext } from "../App";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CountryDetail = () => {
-  const {  countryDeatil, setCountryDetail } =
+  const { countryDeatil, setCountryDetail, populationConvert, getTheme } =
     useContext(modeContext);
 
   const [countryDetailList, setCountryDetailList] = useState({});
@@ -14,111 +14,231 @@ const CountryDetail = () => {
       const countryData = JSON.parse(localStorage.getItem("countryList")).map(
         (x) => x["country"]
       );
-      let newCountryObj = {...countryData.filter((x) => x["countryName"] === countryDeatil)[0]}
+      let newCountryObj = {
+        ...countryData.filter((x) => x["countryName"] === countryDeatil)[0],
+      };
       setCountryDetailList(newCountryObj);
     };
 
     if (countryDeatil?.length >= 1) {
       fetchLocalCountry();
     }
-    
   }, [countryDeatil]);
 
 
-  function populationConvert(val){
-    return val
-  } //population convertion
-
   const borderCountry = (border) => {
-    let countryList = JSON.parse(localStorage.getItem("countryList"))?.filter(x => x["country"]["border1"] === border)[0];
-    
-    if(countryList){
+    let countryList = JSON.parse(localStorage.getItem("countryList"))?.filter(
+      (x) => x["country"]["border1"] === border
+    )[0];
+
+    if (countryList) {
       return countryList["country"]["countryName"];
-    }else {
-      return "no borders"
+    } else {
+      return "no borders";
     }
-  } 
+  };
 
-  
-    return (
-      <div
-        // style={{
-        //   width: "100%",
-        //   height: "80vh",
-        //   display: "flex",
-        //   justifyContent: "center",
-        //   alignItems: "center",
-        //   flexDirection: "column",
-        //   gap: "4rem"
-        // }}
-        className="w-[100%] h-screen flex justify-center items-center flex-col gap4"
-      >
-            <div style={{width: "80%"}}>
-            <div style={{ width: "8rem", height: "2.7rem" }}>
-          <Link
-            style={{ textDecoration: "none", color: "black" }}
-            to={"/"}
-            
+  return (
+    <div className="w-[100%] h-screen flex justify-center items-center flex-col gap-10">
+      {getTheme ? <div className="w-[80%] flex justify-start ">
+        <Link className="text-none" to={"/"}>
+          <div
+            className={`h-[100%] border-none text-DarkModeText&LightModeElements rounded w-[100px] h-[30px] flex justify-center items-center gap-3 shadow bg-darkModeElements`}
           >
-            <div
-              style={{
-                height: "100%",
-                border: "none",
-                backgroundColor: "white",
-                borderRadius: "0.2rem",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "6%",
-                boxShadow: "2px 2px 5px grey",
-              }}
-            >
-              <FaArrowLeftLong style={{ paddingBottom: "1%" }} />
-              <span style={{ textAlign: "center" }}> Back</span>
+            <FaArrowLeftLong />
+            <span> Back</span>
+          </div>
+        </Link>
+      </div>: <div className="w-[80%] flex justify-start">
+        <Link className="text-none" to={"/"}>
+          <div
+            className={`h-[100%] border-none text-lightModeText rounded w-[100px] h-[30px] flex justify-center items-center gap-3 shadow `}
+          >
+            <FaArrowLeftLong />
+            <span> Back</span>
+          </div>
+        </Link>
+      </div>}
+
+      {getTheme ? <>{countryDetailList["countryName"]?.length > 0 && (
+        <div className="w-[80%] h-[50%] flex justify-center items-center gap-20 flex-wrap">
+          <div className="w-[40%] h-[90%]">
+            <img
+              src={countryDetailList.flag}
+              alt={`${countryDetailList.flag}_photo`}
+              className="w-[100%] h-[100%] object-cover"
+            />
+          </div>
+
+          <div className="w-[50%] h-[90%] flex justify-around items-center flex-col">
+            <div className="w-[100%] h-[15%]">
+              <span className="text-xl font-bold text-DarkModeText&LightModeElements">
+                {countryDetailList.countryName}
+              </span>
             </div>
-          </Link>
+            <div className="w-[100%] h-[50%] flex justify-between">
+              <div className="w-[40%] h-[100%] flex flex-col justify-start gap-1">
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Native Name:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.nativeName}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Population:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {populationConvert(countryDetailList.population)}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Region:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.region}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Sub Region:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.subregion || "N/A"}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Capital:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.capital}
+                  </span>
+                </span>
+              </div>
+              <div className="w-[40%] h-[100%] flex flex-col justify-start items-start g-1">
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Top Level Domain:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.tld}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-DarkModeText&LightModeElements">
+                  Currencies:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.currencies || "N/A"}
+                  </span>
+                </span>
+                <span className="text-base font-bol text-DarkModeText&LightModeElements">
+                  Languages:{" "}
+                  <span className="text-base font-light text-DarkModeText&LightModeElements">
+                    {countryDetailList.capital}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div className="flex w-[100%] h-[10%] justify-start gap-2 items-center flex-wrap">
+              <span className="text-lg font-bold text-DarkModeText&LightModeElements">
+                Border Countries:{" "}
+              </span>
+              {countryDetailList[`borders`]?.map((border, ind) => (
+                <div
+                  key={ind}
+                  className="w-[15%] h-[80%] flex justify-center items-center shadow rounded cursor-pointer bg-darkModeElements"
+                  onClick={() => setCountryDetail(borderCountry(border))}
+                >
+                  <span className="text-xs text-DarkModeText&LightModeElements">
+                    {borderCountry(border)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-            </div>
+      )}</> : <>{countryDetailList["countryName"]?.length > 0 && (
+        <div className="w-[80%] h-[50%] flex justify-center items-center gap-20">
+          <div className="w-[50%] h-[90%]">
+            <img
+              src={countryDetailList.flag}
+              alt={`${countryDetailList.flag}_photo`}
+              className="w-[100%] h-[100%] object-cover"
+            />
+          </div>
 
-        {countryDetailList["countryName"]?.length > 0 && <div style={{ width: "80%", height: "55%", display: "flex", justifyContent: "center", alignItems: "center", gap: "5%" }}>
-            <div style={{ width: "50%", height: "90%"}}>
-              <img src={countryDetailList.flag} alt="photo" style={{width: "100%", height: "100%", objectFit: "cover"}}/>
+          <div className="w-[50%] h-[90%] flex justify-around items-center flex-col">
+            <div className="w-[100%] h-[15%]">
+              <span className="text-xl font-bold text-lightModeText">
+                {countryDetailList.countryName}
+              </span>
             </div>
-
-            <div style={{ width: "50%", height: "90%",  display: "flex", justifyContent: "space-around", alignItems: "center", flexDirection: "column" }}>
-              <div style={{width: "100%", height: "15%"}}>
-                <span style={{fontSize: "1.8rem", fontWeight: "bold"}}>{countryDetailList.countryName}</span>
+            <div className="w-[100%] h-[50%] flex justify-between">
+              <div className="w-[40%] h-[100%] flex flex-col justify-start gap-1">
+                <span className="text-base font-bold text-lightModeText">
+                  Native Name:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.nativeName}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-lightModeText">
+                  Population:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {populationConvert(countryDetailList.population)}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-lightModeText">
+                  Region:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.region}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-lightModeText">
+                  Sub Region:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.subregion || "N/A"}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-lightModeText">
+                  Capital:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.capital}
+                  </span>
+                </span>
               </div>
-              <div style={{width: "100%", height: "50%",  display: "flex", justifyContent: "space-between"}}>
-                <div style={{width: '40%', height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-start", gap: "0.8rem"}}>
-                <span className="text-base font-bold">Native Name:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.nativeName}</span></span>
-                <span className="text-base font-bold">Population:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.population}</span></span>
-                <span className="text-base font-bold">Region:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.region}</span></span>
-                <span className="text-base font-bold">Sub Region:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.subregion || "N/A"}</span></span>
-                <span className="text-base font-bold">Capital:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.capital}</span></span>
-
+              <div className="w-[40%] h-[100%] flex flex-col justify-start items-start g-1">
+                <span className="text-base font-bold text-lightModeText">
+                  Top Level Domain:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.tld}
+                  </span>
+                </span>
+                <span className="text-base font-bold text-lightModeText">
+                  Currencies:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.currencies || "N/A"}
+                  </span>
+                </span>
+                <span className="text-base font-bol text-lightModeTextd">
+                  Languages:{" "}
+                  <span className="text-base font-light text-lightModeText">
+                    {countryDetailList.capital}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div className="flex w-[100%] h-[10%] justify-start gap-2 items-center flex-wrap">
+              <span className="text-lg font-bold text-lightModeText">
+                Border Countries:{" "}
+              </span>
+              {countryDetailList[`borders`]?.map((border, ind) => (
+                <div
+                  key={ind}
+                  className="w-[15%] h-[80%] flex justify-center items-center shadow rounded cursor-pointer bg-lightModeBackground"
+                  onClick={() => setCountryDetail(borderCountry(border))}
+                >
+                  <span className="text-xs text-lightModeText">
+                    {borderCountry(border)}
+                  </span>
                 </div>
-                <div style={{width: '40%', height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-start",alignItems: "flex-start", gap: "0.8rem"}}>
-               
-               
-                <span className="text-base font-bold">Top Level Domain:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.tld}</span></span>
-                <span className="text-base font-bold">Currencies:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.currencies || "N/A"}</span></span>
-                <span className="text-base font-bold">Languages:  <span style={{fontSize: "0.9rem", fontWeight: "lighter"}}>{countryDetailList.capital}</span></span>
-                </div>
-              </div>
-              <div style={{display: "flex" ,width: "100%", height: "10%",  display: "flex", justifyContent:"flex-start", gap: "0.8rem", alignItems: "center"}}>
-                <span style={{fontSize: "1rem", fontWeight: "bold"}}>Border Countries: </span>
-                {countryDetailList[`borders`]?.map((border, ind) => 
-                <div key={ind} style={{width: "15%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center", boxShadow: "1px 1px 5px black", borderRadius: "0.2rem", cursor: "pointer"}} onClick={() => setCountryDetail(borderCountry(border))}>
-                  <span style={{fontSize: '0.7rem'}}>{borderCountry(border)}</span>
-                  </div>)}
-              </div>
+              ))}
             </div>
-        </div>}
-        {/* <button onClick={() => setCountryDetail("India")}>get India</button> */}
-      </div>
-    );
+          </div>
+        </div>
+      )}</>}
+    </div>
+  );
 };
 
 export default CountryDetail;
