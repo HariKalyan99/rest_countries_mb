@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { modeContext } from "../App";
 
-const CountryCard = ({ country, countryDeatilFn }) => {
+const CountryCard = ({ country, countryDetailFn }) => {
   const { getTheme, populationConvert } = useContext(modeContext);
   const { countryName, capital, flag, population, region } = country;
 
   const handleClick = (name) => {
-    countryDeatilFn(name, region);
+    countryDetailFn(name, region);
   };
 
   return (

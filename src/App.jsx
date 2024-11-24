@@ -6,8 +6,8 @@ export const modeContext = createContext({
   switchTheme: () => {},
   getTheme: false,
   countryList: [],
-  countryDeatilFn: () => {},
-  countryDeatil: [],
+  countryDetailFn: () => {},
+  countryDetail: [],
   setCountryDetail: () => {},
   setCountry: () => {},
   getCountry: "",
@@ -32,7 +32,7 @@ function App() {
   // const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
-  const [countryDeatil, setCountryDetail] = useState("");
+  const [countryDetail, setCountryDetail] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -79,7 +79,7 @@ function App() {
           try {
             const data = await fetch(
               "https://restcountries.com/v3.1/all",
-              signal
+              {signal}
             );
             const jsonData = await data.json();
             if (jsonData) {
@@ -115,7 +115,7 @@ function App() {
     const fetchRegionalCountries = async (region) => {
       if (region === "All") {
         try {
-          const data = await fetch("https://restcountries.com/v3.1/all", signal);
+          const data = await fetch("https://restcountries.com/v3.1/all", {signal});
           const jsonData = await data.json();
           if (jsonData) {
             setOnlyRegionCountries("");
@@ -228,7 +228,7 @@ function App() {
     }, []);
   };
 
-  const countryDeatilFn = async (country) => {
+  const countryDetailFn = async (country) => {
     setCountryDetail(country);
   };
 
@@ -245,8 +245,8 @@ function App() {
         switchTheme,
         getTheme,
         countryList,
-        countryDeatilFn,
-        countryDeatil,
+        countryDetailFn,
+        countryDetail,
         setCountryDetail,
         setCountry,
         getCountry,

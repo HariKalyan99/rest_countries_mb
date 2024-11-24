@@ -6,7 +6,7 @@ import SearchMedia from "./SearchMedia";
 const CountryDashboard = () => {
   const {
     countryList,
-    countryDeatilFn,
+    countryDetailFn,
   } = useContext(modeContext);
 
   if (countryList?.length > 0) {
@@ -17,7 +17,7 @@ const CountryDashboard = () => {
           {countryList?.length > 0 &&
             countryList.map(({ country }, ind) => (
               <CountryCard
-                countryDeatilFn={countryDeatilFn}
+                countryDetailFn={countryDetailFn}
                 key={ind}
                 country={country}
               />

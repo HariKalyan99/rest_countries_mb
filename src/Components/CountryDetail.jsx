@@ -4,7 +4,7 @@ import { modeContext } from "../App";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CountryDetail = () => {
-  const { countryDeatil, setCountryDetail, populationConvert, getTheme } =
+  const { countryDetail, setCountryDetail, populationConvert, getTheme } =
     useContext(modeContext);
 
   const [countryDetailList, setCountryDetailList] = useState({});
@@ -15,12 +15,12 @@ const CountryDetail = () => {
         (x) => x["country"]
       );
       let newCountryObj = {
-        ...countryData.filter((x) => x["countryName"] === countryDeatil)[0],
+        ...countryData.filter((x) => x["countryName"] === countryDetail)[0],
       };
       localStorage.setItem("countryObj", JSON.stringify(newCountryObj));
     };
 
-    if (countryDeatil?.length >= 1) {
+    if (countryDetail?.length >= 1) {
       fetchLocalCountry();
     }
 
@@ -34,7 +34,7 @@ const CountryDetail = () => {
   
 
 
-  }, [countryDeatil]);
+  }, [countryDetail]);
 
 
   const borderCountry = (border) => {
