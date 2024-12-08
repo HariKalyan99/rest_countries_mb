@@ -1,6 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import Navigation from "./Components/Navigation";
 import { Outlet } from "react-router-dom";
+import RestCountry from "./apiServices/restCountriesApiService";
+const { getAllCountries, getACountry, getRegionalCountries } =
+  new RestCountry();
 
 export const modeContext = createContext({
   switchTheme: () => {},
@@ -13,23 +16,20 @@ export const modeContext = createContext({
   getCountry: "",
   specificRegion: () => {},
   regionList: "",
-  populationConvert: () => {}
+  populationConvert: () => {},
 });
-
-
 
 let regionalCountryCopy;
 function App() {
+  // this component has an application of context api for state management
+
   //Theme mode states.
   const [getTheme, setTheme] = useState(false);
-
-  //country list array
 
   const [countryList, setCountryList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [getCountry, setCountry] = useState("");
   const [getRegion, setRegion] = useState("");
-  // const [debounceTimer, setDebounceTimer] = useState(null);
   const [onlyRegionCountries, setOnlyRegionCountries] = useState("");
 
   const [countryDetail, setCountryDetail] = useState("");
@@ -51,10 +51,10 @@ function App() {
           );
         } else if (!country) {
           try {
-            const data = await fetch(
-              `https://restcountries.com/v3.1/region/${getRegion}`
+            const jsonData = await getRegionalCountries(
+              "https://restcountries.com/v3.1/region/",
+              getRegion
             );
-            const jsonData = await data.json();
             if (jsonData) {
               setCountryList(convertCountryList(jsonData));
             }
@@ -65,10 +65,10 @@ function App() {
       } else {
         if (country?.length >= 1) {
           try {
-            const data = await fetch(
-              `https://restcountries.com/v3.1/name/${country}`
+            const jsonData = await getACountry(
+              "https://restcountries.com/v3.1/name/",
+              country
             );
-            const jsonData = await data.json();
             if (jsonData) {
               setCountryList(convertCountryList(jsonData));
             }
@@ -77,11 +77,11 @@ function App() {
           }
         } else {
           try {
-            const data = await fetch(
+            const jsonData = await getAllCountries(
               "https://restcountries.com/v3.1/all",
-              {signal}
+              signal
             );
-            const jsonData = await data.json();
+
             if (jsonData) {
               localStorage.setItem(
                 "countryList",
@@ -91,8 +91,8 @@ function App() {
               setCountryList(convertCountryList(jsonData));
             }
           } catch (error) {
-            if (error.name === 'AbortError') {
-              console.log('Fetch aborted');
+            if (error.name === "AbortError") {
+              console.log("Fetch aborted");
             } else {
               console.error(error);
               setError(error.message);
@@ -109,22 +109,25 @@ function App() {
     };
   }, [getCountry]);
 
+  // triggering for the regional countries without giving access to the country all and region useEffect's dependers, stated above
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
     const fetchRegionalCountries = async (region) => {
       if (region === "All") {
         try {
-          const data = await fetch("https://restcountries.com/v3.1/all", {signal});
-          const jsonData = await data.json();
+          const jsonData = await getAllCountries(
+            "https://restcountries.com/v3.1/all",
+            signal
+          );
           if (jsonData) {
             setOnlyRegionCountries("");
             setCountry("");
             setCountryList(convertCountryList(jsonData));
           }
         } catch (error) {
-          if (error.name === 'AbortError') {
-            console.log('Fetch aborted');
+          if (error.name === "AbortError") {
+            console.log("Fetch aborted");
           } else {
             console.error(error);
             setError(error.message);
@@ -132,10 +135,10 @@ function App() {
         }
       } else {
         try {
-          const data = await fetch(
-            `https://restcountries.com/v3.1/region/${region}`
+          const jsonData = await getRegionalCountries(
+            "https://restcountries.com/v3.1/region/",
+            region
           );
-          const jsonData = await data.json();
           if (jsonData) {
             setCountry("");
             setOnlyRegionCountries(region);
@@ -144,7 +147,6 @@ function App() {
             setCountryList(convertCountryList(jsonData));
           }
         } catch (error) {
-
           console.log(error);
         }
       }
@@ -153,10 +155,9 @@ function App() {
       fetchRegionalCountries(getRegion);
     }
 
-
     return () => {
-      controller.abort()
-    }
+      controller.abort();
+    };
   }, [getRegion]);
 
   const specificRegion = (region) => {
@@ -167,6 +168,7 @@ function App() {
     setTheme(!getTheme);
   };
 
+  // converting the data based on the requirement
   const convertCountryList = (jsonData) => {
     return jsonData.reduce(
       (
@@ -233,11 +235,9 @@ function App() {
   };
 
   const populationConvert = (val) => {
-    let intlFormat = new Intl.NumberFormat('en-US')
-    return intlFormat.format(val)
-  }
-
-  
+    let intlFormat = new Intl.NumberFormat("en-US");
+    return intlFormat.format(val);
+  };
 
   return (
     <modeContext.Provider
@@ -252,7 +252,7 @@ function App() {
         getCountry,
         specificRegion,
         regionList,
-        populationConvert
+        populationConvert,
       }}
     >
       <div
